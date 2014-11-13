@@ -7,6 +7,7 @@ A simple Shellshock scanner in python
 Test 1: uses the command sleep in different headers and check differences between delays to check the vulnerability.
 Test 2: uses the command ping -cX 127.0.0.1 and check differences between delays.
 Test 3: try to print a string and get it (causes a lot of False Positives)
+Test 4: try to make request to website using wget
 
 Receives a host list and a cgi list (and the number of threads). 
 
@@ -16,10 +17,6 @@ It can cause some False positives (Retest the possible possitives).
 
 I know is not the most portable code that you have ever seen but... it works ^ ^u. Anyway, any improvement is always welcome :)
 
-TODO Tests:
-1. Try to write a file in /var/www and read it? (this would be quite intrusive)
-2. Send mail with info 
-3. Ping IP address (then have a listener)
 
 Output CSV file
 ===============

